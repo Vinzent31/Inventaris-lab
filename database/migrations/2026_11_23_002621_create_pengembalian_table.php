@@ -1,0 +1,32 @@
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('pengembalian', function (Blueprint $table) {
+            $table->increments('id_pengembalian');
+
+            $table->integer('id_peminjaman')->nullable();
+
+            $table->dateTime('waktu_pengembalian');
+            $table->string('kondisi_barang', 50);
+
+            $table->foreign('id_peminjaman')
+                  ->references('id_peminjaman')
+                  ->on('peminjaman')
+                  ->cascadeOnDelete()
+                  ->cascadeOnUpdate();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('pengembalian');
+    }
+};
